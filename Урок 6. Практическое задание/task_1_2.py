@@ -30,3 +30,48 @@
 
 Это файл для второго скрипта
 """
+
+# Курс Алгоритмы и структуры данных. Урок 4 , задание 1,
+# Приведен код, который позволяет сохранить в
+# массиве индексы четных элементов другого массива
+
+from memory_profiler import profile
+from random import randint
+from numpy import array, where
+
+
+@profile
+def func_2(nums):
+    new_arr = [i for i in range(len(nums)) if nums[i] % 2 == 0]
+    return new_arr
+
+
+@profile
+def func_2_upd(nums):
+    intarray = array(nums)
+    return where(intarray % 2 == 0)
+
+
+mas = [randint(0, 100) for i in range(500000)]
+
+b = func_2(mas)
+d = func_2_upd(mas)
+
+# Первоначальный вариант
+# Line #    Mem usage    Increment  Occurrences   Line Contents
+# =============================================================
+#     43     26.4 MiB     26.4 MiB           1   @profile
+#     44                                         def func_2(nums):
+#     45     31.3 MiB  -7295.9 MiB      500003       new_arr = [i for i in range(len(nums)) if nums[i] % 2 == 0]
+#     46     31.3 MiB      0.0 MiB           1       return new_arr
+#
+# Оптимизированный вариант
+# Line #    Mem usage    Increment  Occurrences   Line Contents
+# =============================================================
+#     49     26.4 MiB     26.4 MiB           1   @profile
+#     50                                         def func_2_upd(nums):
+#     51     28.3 MiB      1.9 MiB           1       intarray = array(nums)
+#     52     29.3 MiB      1.0 MiB           1       return where(intarray % 2 == 0)
+
+# Использованы возможности numpy/ Для получения таких результатов пришлось запускать варианты отдельно,
+# тк итог зависел от порядка выполнения в программе( кто выполнялся вторым - занимал больше памяти)

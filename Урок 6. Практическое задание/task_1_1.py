@@ -30,3 +30,60 @@
 
 Это файл для первого скрипта
 """
+
+# Курс Алгоритмы и структуры данных. Урок 1 , задание 2, поиск минимального значения в списке
+from memory_profiler import profile
+
+
+@profile
+def find_min2(lst_in):
+    min2 = lst_in[0]
+    for i in range(len(lst_in)):
+        if lst_in[i] < min2:
+            min2 = lst_in[i]
+
+    return min2
+
+
+@profile
+def find_min2_upd(gen_in):
+    min2 = next(gen_in)
+    for i in gen_in:
+        if i < min2:
+            min2 = i
+
+    return min2
+
+
+#print(find_min2(list(range(200000))))
+
+new_gen = (i for i in range(200000))
+print(find_min2_upd(new_gen))
+
+
+
+# Первоначальный вариант
+# Line #    Mem usage    Increment  Occurrences   Line Contents
+# =============================================================
+#     38     19.8 MiB     19.8 MiB           1   @profile
+#     39                                         def find_min2(lst_in):
+#     40     19.8 MiB      0.0 MiB           1       min2 = lst_in[0]
+#     41     19.8 MiB      0.0 MiB      200001       for i in range(len(lst_in)):
+#     42     19.8 MiB      0.0 MiB      200000           if lst_in[i] < min2:
+#     43                                                     min2 = lst_in[i]
+#     44
+#     45     19.8 MiB      0.0 MiB           1       return min2
+
+# Оптимизированный вариант
+# Line #    Mem usage    Increment  Occurrences   Line Contents
+# =============================================================
+#     48     15.9 MiB     15.9 MiB           1   @profile
+#     49                                         def find_min2_upd(gen_in):
+#     50     15.9 MiB      0.0 MiB           1       min2 = next(gen_in)
+#     51     15.9 MiB      0.0 MiB      200000       for i in gen_in:
+#     52     15.9 MiB      0.0 MiB      199999           if i < min2:
+#     53                                                     min2 = i
+#     54
+#     55     15.9 MiB      0.0 MiB           1       return min2
+#
+# Оптимизация путем замены списка генератором

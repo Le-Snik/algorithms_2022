@@ -30,3 +30,30 @@
 
 Это файл для третьего скрипта
 """
+from random import randint
+from memory_profiler import profile
+
+
+@profile
+def func_2(array):
+    new_array = []
+    for el in array:
+        count2 = array.count(el)
+        new_array.append(count2)
+
+    max_2 = max(new_array)
+    elem = array[new_array.index(max_2)]
+    return f'Чаще всего встречается число {elem}, ' \
+           f'оно появилось в массиве {max_2} раз(а)'
+
+
+@profile
+def func_3(array):
+    elem = max(array, key=array.count)
+    return f'Чаще всего встречается число {elem}, ' \
+           f'оно появилось в массиве {array.count(elem)} раз(а)'
+
+
+my_array = [randint(0, 100) for i in range(50000)]
+print(func_2(my_array))
+print(func_3(my_array))
